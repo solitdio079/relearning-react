@@ -1,35 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+const poem = {
+  lines: [
+    'I write, erase, rewrite',
+    'Erase again, and then',
+    'A poppy blooms.'
+  ]
+};
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function Poem() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+    <article>
+      {poem.lines.map((line, index) =><>
+        <p key={index}>
+          {line}
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+        {index!==poem.lines.length-1 ? <hr key={index + '-separator'}/>:null}
+        </>
+      )}
+    </article>
+  );
 }
-
-export default App
