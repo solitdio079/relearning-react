@@ -1,25 +1,22 @@
 import { useState } from "react";
 
 export default function Person() {
-  const [person, setPerson] = useState({ name: "John", age: 100 });
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
 
-  const handleIncreaseAge = () => {
-    console.log("in handleIncreaseAge (before setPerson call): ", person);
-    setPerson((prevPerson) => ({ ...prevPerson, age: prevPerson.age + 1 }));
-    setPerson((prevPerson) => ({ ...prevPerson, age: prevPerson.age + 1 }));
-    // we've called setPerson, surely person has updated?
-    console.log("in handleIncreaseAge (after setPerson call): ", person);
-  };
-
-  // this console.log runs every time the component renders
-  // what do you think this will print?
-  console.log("during render: ", person);
-
+  const fullName = firstName + " " + lastName
   return (
     <>
-      <h1>{person.name}</h1>
-      <h2>{person.age}</h2>
-      <button onClick={handleIncreaseAge}>Increase age</button>
+    <div>
+      <label htmlFor="firstName"></label>
+      <input type="text" id="firstName" value={firstName} onChange={(e) => {setFirstName(e.target.value) }}/>
+    </div>
+    <div>
+    <label htmlFor="firstName"></label>
+    <input type="text" id="lastName" value={lastName} onChange={(e) => {setLastName(e.target.value) }}/>
+    </div>
+    
+      <h1>{fullName}</h1>
     </>
-  );
+  ) 
 }
