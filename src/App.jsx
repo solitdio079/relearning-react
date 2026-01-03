@@ -1,22 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 
-export default function Person() {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+const serverUrl = 'https://localhost:1235';
 
-  const fullName = firstName + " " + lastName
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+  return <h1>Welcome to the {roomId} room!</h1>;
+}
+
+export default function App() {
+  const [roomId, setRoomId] = useState('general');
+  const [show, setShow] = useState(false);
   return (
     <>
-    <div>
-      <label htmlFor="firstName"></label>
-      <input type="text" id="firstName" value={firstName} onChange={(e) => {setFirstName(e.target.value) }}/>
-    </div>
-    <div>
-    <label htmlFor="firstName"></label>
-    <input type="text" id="lastName" value={lastName} onChange={(e) => {setLastName(e.target.value) }}/>
-    </div>
-    
-      <h1>{fullName}</h1>
+      <label>
+        Choose the chat room:{' '}
+        <select
+          value={roomId}
+          onChange={e => setRoomId(e.target.value)}
+        >
+          <option value="general">general</option>
+          <option value="travel">travel</option>
+          <option value="music">music</option>
+        </select>
+      </label>
+      <button onClick={() => setShow(!show)}>
+        {show ? 'Close chat' : 'Open chat'}
+      </button>
+      {show && <hr />}
+      {show && <ChatRoom roomId={roomId} />}
     </>
-  ) 
+  );
+}
+function createConnection(serverUrl, roomId) {
+  // A real implementation would actually connect to the server
+  return {
+    connect() {
+      console.log('✅ Connecting to "' + roomId + '" room at ' + serverUrl + '...');
+    },
+    disconnect() {
+      console.log('❌ Disconnected from "' + roomId + '" room at ' + serverUrl);
+    }
+  };
 }
