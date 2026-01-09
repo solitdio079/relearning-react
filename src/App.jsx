@@ -1,48 +1,44 @@
 import { useState, useEffect } from 'react';
 
-const serverUrl = 'https://localhost:1235';
+export default function Form() {
+  const [showForm, setShowForm] = useState(false);
+  const [message, setMessage] = useState('');
 
-function ChatRoom({ roomId }) {
-  useEffect(() => {
-    const connection = createConnection(serverUrl, roomId);
-    connection.connect();
-    return () => connection.disconnect();
-  }, [roomId]);
-  return <h1>Welcome to the {roomId} room!</h1>;
-}
+ 
+  function handleSubmit(e) {
+    e.preventDefault();
+    sendMessage(message);
+    setShowForm(false);
+  }
 
-export default function App() {
-  const [roomId, setRoomId] = useState('general');
-  const [show, setShow] = useState(false);
+  if (!showForm) {
+    return (
+      <>
+        <h1>Thanks for using our services!</h1>
+        <button onClick={() => {
+          setMessage('');
+          setShowForm(true);
+        }}>
+          Open chat
+        </button>
+      </>
+    );
+  }
+
   return (
-    <>
-      <label>
-        Choose the chat room:{' '}
-        <select
-          value={roomId}
-          onChange={e => setRoomId(e.target.value)}
-        >
-          <option value="general">general</option>
-          <option value="travel">travel</option>
-          <option value="music">music</option>
-        </select>
-      </label>
-      <button onClick={() => setShow(!show)}>
-        {show ? 'Close chat' : 'Open chat'}
+    <form onSubmit={handleSubmit}>
+      <textarea
+        placeholder="Message"
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      />
+      <button type="submit" disabled={message === ''}>
+        Send
       </button>
-      {show && <hr />}
-      {show && <ChatRoom roomId={roomId} />}
-    </>
+    </form>
   );
 }
-function createConnection(serverUrl, roomId) {
-  // A real implementation would actually connect to the server
-  return {
-    connect() {
-      console.log('✅ Connecting to "' + roomId + '" room at ' + serverUrl + '...');
-    },
-    disconnect() {
-      console.log('❌ Disconnected from "' + roomId + '" room at ' + serverUrl);
-    }
-  };
+
+function sendMessage(message) {
+  console.log('Sending message: ' + message);
 }
