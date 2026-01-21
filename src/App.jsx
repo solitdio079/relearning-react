@@ -1,44 +1,14 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import FunctionalInput from './components/FunctionalInput';
+import ClassInput from './components/ClassInput';
+import './style.css';
 
-export default function Form() {
-  const [showForm, setShowForm] = useState(false);
-  const [message, setMessage] = useState('');
-
- 
-  function handleSubmit(e) {
-    e.preventDefault();
-    sendMessage(message);
-    setShowForm(false);
-  }
-
-  if (!showForm) {
-    return (
-      <>
-        <h1>Thanks for using our services!</h1>
-        <button onClick={() => {
-          setMessage('');
-          setShowForm(true);
-        }}>
-          Open chat
-        </button>
-      </>
-    );
-  }
-
+export default function App() {
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        placeholder="Message"
-        value={message}
-        onChange={e => setMessage(e.target.value)}
-      />
-      <button type="submit" disabled={message === ''}>
-        Send
-      </button>
-    </form>
+    <>
+      <FunctionalInput name="Functional component!" />
+      <div className="divider" />
+      <ClassInput name="Class based component!" />
+    </>
   );
-}
-
-function sendMessage(message) {
-  console.log('Sending message: ' + message);
 }
