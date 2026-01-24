@@ -1,14 +1,20 @@
-import React from 'react';
-import FunctionalInput from './components/FunctionalInput';
-import ClassInput from './components/ClassInput';
-import './style.css';
+import { useState } from "react";
 
 export default function App() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
   return (
-    <>
-      <FunctionalInput name="Functional component!" />
-      <div className="divider" />
-      <ClassInput name="Class based component!" />
-    </>
+    <div>
+      <Input handleChange={handleChange} inputValue={inputValue} />
+    </div>
   );
+}
+
+function Input(props) {
+  const { handleChange, inputValue } = props;
+  return <input onChange={handleChange} value={inputValue} />;
 }
